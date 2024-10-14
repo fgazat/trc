@@ -5,8 +5,8 @@ import (
 
 	"github.com/fgazat/tracker"
 	"github.com/fgazat/tracker/entities"
-	"github.com/fgazat/trc/client"
 	"github.com/fgazat/trc/config"
+	"github.com/fgazat/trc/internal/client"
 )
 
 type Client struct {
@@ -26,11 +26,16 @@ func New(cfg *config.Config) *Client {
 	}
 }
 
-func (c *Client) CreateIssue(args client.CreateArgs) (string, error) {
+func (c *Client) CreateIssue(args *client.CreateArgs) (string, error) {
 	issue := entities.Issue{
 		Queue:       &entities.Entity{Key: args.Queue},
 		Summary:     args.Summary,
 		Description: args.Description,
+	}
+	if args.Assignee != "" {
+		issue.Assignee = &entities.User{
+			ID: args.Assignee,
+		}
 	}
 	err := c.client.CreateIsueeAny(context.Background(), issue, &issue)
 	return issue.Key, err

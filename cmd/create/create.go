@@ -2,14 +2,16 @@ package create
 
 import (
 	"log"
+	"os"
 
-	"github.com/fgazat/trc/client"
 	"github.com/fgazat/trc/config"
+	"github.com/fgazat/trc/internal/cli"
+	"github.com/fgazat/trc/internal/client"
 	"github.com/spf13/cobra"
 )
 
 func Create(cfg *config.Config, creator client.Creator) *cobra.Command {
-	var queue, summary, description string
+	var queue, summary, description, assignee string
 	cmd := &cobra.Command{
 		Use:              "create",
 		Short:            "Create issue",
@@ -17,12 +19,21 @@ func Create(cfg *config.Config, creator client.Creator) *cobra.Command {
 		Aliases:          []string{"c"},
 		Example:          `  trc c -q "TEST" -m "hello" -d "world"`,
 		Run: func(cmd *cobra.Command, args []string) {
-			log.Println("Creating issue")
-			key, err := creator.CreateIssue(client.CreateArgs{
+			createArgs := client.CreateArgs{
 				Queue:       queue,
 				Summary:     summary,
 				Description: description,
-			})
+				Assignee:    assignee,
+			}
+			log.Println(cli.StringKeyVals("Issue params", &createArgs))
+			if !cfg.Force {
+				ok := cli.Confirm("Create Issue?")
+				if !ok {
+					log.Println("Ok then")
+					os.Exit(0)
+				}
+			}
+			key, err := creator.CreateIssue(&createArgs)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -32,5 +43,6 @@ func Create(cfg *config.Config, creator client.Creator) *cobra.Command {
 	cmd.Flags().StringVarP(&queue, "queue", "q", cfg.Issues.DefaultQueue, "Queue")
 	cmd.Flags().StringVarP(&summary, "sum", "m", "", "Summary. Short -m is due to convinient commit message arg")
 	cmd.Flags().StringVarP(&description, "desc", "d", "", "Description of issue")
+	cmd.Flags().StringVarP(&assignee, "assignee", "a", cfg.Issues.Assignee, "Assignee")
 	return cmd
 }
