@@ -3,10 +3,11 @@ package list
 import (
 	"log"
 
+	"github.com/fgazat/trc/config"
 	"github.com/spf13/cobra"
 )
 
-func List() *cobra.Command {
+func List(cfg *config.Config) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:              "list",
 		Short:            "List issues",

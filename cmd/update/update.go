@@ -3,10 +3,11 @@ package update
 import (
 	"log"
 
+	"github.com/fgazat/trc/config"
 	"github.com/spf13/cobra"
 )
 
-func Update() *cobra.Command {
+func Update(cfg *config.Config) *cobra.Command {
 	var summary, key, description string
 	cmd := &cobra.Command{
 		Use:              "update",
