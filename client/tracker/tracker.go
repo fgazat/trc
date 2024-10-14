@@ -5,6 +5,7 @@ import (
 
 	"github.com/fgazat/tracker"
 	"github.com/fgazat/tracker/entities"
+	"github.com/fgazat/trc/client"
 	"github.com/fgazat/trc/config"
 )
 
@@ -18,24 +19,18 @@ func New(cfg *config.Config) *Client {
 		tracker.WithBaseURL(cfg.APIBaseURL),
 		tracker.WithXCloudOrgID(cfg.XCloudOrgID),
 		tracker.WithXOrgID(cfg.XOrgID),
+		tracker.WithUserAgent("CLI tool"),
 	)
 	return &Client{
 		client: client,
 	}
 }
 
-type Issue struct {
-	Key         string `json:"key,omitempty"`
-	Queue       string `json:"queue,omitempty"`
-	Summary     string `json:"summary,omitempty"`
-	Description string `json:"description,omitempty"`
-}
-
-func (c *Client) CreateIssue(queue, summary, description string) (string, error) {
+func (c *Client) CreateIssue(args client.CreateArgs) (string, error) {
 	issue := entities.Issue{
-		Queue:       &entities.Entity{Key: queue},
-		Summary:     summary,
-		Description: description,
+		Queue:       &entities.Entity{Key: args.Queue},
+		Summary:     args.Summary,
+		Description: args.Description,
 	}
 	err := c.client.CreateIsueeAny(context.Background(), issue, &issue)
 	return issue.Key, err

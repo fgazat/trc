@@ -1,5 +1,11 @@
 package client
 
+type CreateArgs struct {
+	Queue       string
+	Summary     string
+	Description string
+}
+
 type Creator interface {
-	CreateIssue(queue, summary, description string) (string, error)
+	CreateIssue(args CreateArgs) (string, error)
 }
