@@ -18,7 +18,11 @@ func Create(cfg *config.Config, creator client.Creator) *cobra.Command {
 		Example:          `  trc c -q "TEST" -m "hello" -d "world"`,
 		Run: func(cmd *cobra.Command, args []string) {
 			log.Println("Creating issue")
-			key, err := creator.CreateIssue(queue, summary, description)
+			key, err := creator.CreateIssue(client.CreateArgs{
+				Queue:       queue,
+				Summary:     summary,
+				Description: description,
+			})
 			if err != nil {
 				log.Fatal(err)
 			}
