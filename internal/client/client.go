@@ -5,6 +5,7 @@ type CreateArgs struct {
 	Summary     string
 	Description string
 	Assignee    string
+	Followers   []string
 }
 
 type Creator interface {

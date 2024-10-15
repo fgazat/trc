@@ -12,5 +12,6 @@ func MakeCmd(name, description string, cfg *config.Config) *cobra.Command {
 	}
 	cmd.PersistentFlags().BoolVarP(&cfg.Force, "force", "f", false, "Executes without confirmation")
 	cmd.PersistentFlags().BoolVar(&cfg.Debug, "debug", false, "Debug mode")
+	cmd.PersistentFlags().BoolVarP(&cfg.Interactive, "interactive", "i", false, "Interactive input mode")
 	return cmd
 }

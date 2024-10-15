@@ -12,6 +12,7 @@ import (
 
 func Create(cfg *config.Config, creator client.Creator) *cobra.Command {
 	var queue, summary, description, assignee string
+	var followers []string
 	cmd := &cobra.Command{
 		Use:              "create",
 		Short:            "Create issue",
@@ -24,6 +25,7 @@ func Create(cfg *config.Config, creator client.Creator) *cobra.Command {
 				Summary:     summary,
 				Description: description,
 				Assignee:    assignee,
+				Followers:   followers,
 			}
 			log.Println(cli.StringKeyVals("Issue params", &createArgs))
 			if !cfg.Force {
@@ -44,5 +46,6 @@ func Create(cfg *config.Config, creator client.Creator) *cobra.Command {
 	cmd.Flags().StringVarP(&summary, "summary", "s", "", "Summary")
 	cmd.Flags().StringVarP(&description, "desc", "d", "", "Description of issue")
 	cmd.Flags().StringVarP(&assignee, "assignee", "a", cfg.Issues.Assignee, "Assignee")
+	cmd.Flags().StringSliceVar(&followers, "followers", []string{}, `Slice of followers: -fol="v1,v2" --fol="v3". Followers will be set with value: [v1 v2 v3].`)
 	return cmd
 }

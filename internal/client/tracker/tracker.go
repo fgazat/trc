@@ -37,6 +37,11 @@ func (c *Client) CreateIssue(args *client.CreateArgs) (string, error) {
 			ID: args.Assignee,
 		}
 	}
+	if len(args.Followers) != 0 {
+		for _, u := range args.Followers {
+			issue.Followers = append(issue.Followers, entities.User{ID: u})
+		}
+	}
 	err := c.client.CreateIsueeAny(context.Background(), issue, &issue)
 	return issue.Key, err
 }

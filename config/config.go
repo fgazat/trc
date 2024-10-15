@@ -24,9 +24,10 @@ type Config struct {
 		DefaultQueue string `yaml:"default_queue"`
 		Assignee     string
 	}
-	Filters []Filter
-	Debug   bool
-	Force   bool
+	Filters     []Filter
+	Debug       bool
+	Force       bool
+	Interactive bool
 }
 
 type Filter struct {
