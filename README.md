@@ -3,7 +3,7 @@
 
 ## Instalation
 
-Install using Go command:
+Using Go command:
 
 ```
 go install github.com/fgazat/trc@latest
