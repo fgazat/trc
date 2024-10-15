@@ -20,7 +20,7 @@ func Update(cfg *config.Config) *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&key, "key", "k", "", "Issue key to update")
-	cmd.Flags().StringVarP(&summary, "sum", "m", "", "Summary. Short -m is due to convinient commit message arg")
+	cmd.Flags().StringVarP(&summary, "summary", "s", "", "Summary")
 	cmd.Flags().StringVarP(&description, "desc", "d", "", "Description of issue")
 	return cmd
 }

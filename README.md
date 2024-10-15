@@ -45,6 +45,8 @@ export TRC_CFG_PATH="/my/custom/path"
 
 ```bash
 # create issue
-trc c -m "hello" -d "world" -q "TEST"
+trc create -summary "Summary" -desc "Description" -queue "TEST"
+# create issue (short, if queue specifed in config) 
+trc c -s "Summary" -d "Description"
 ```
 

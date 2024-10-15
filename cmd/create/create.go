@@ -41,7 +41,7 @@ func Create(cfg *config.Config, creator client.Creator) *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&queue, "queue", "q", cfg.Issues.DefaultQueue, "Queue")
-	cmd.Flags().StringVarP(&summary, "sum", "m", "", "Summary. Short -m is due to convinient commit message arg")
+	cmd.Flags().StringVarP(&summary, "summary", "s", "", "Summary")
 	cmd.Flags().StringVarP(&description, "desc", "d", "", "Description of issue")
 	cmd.Flags().StringVarP(&assignee, "assignee", "a", cfg.Issues.Assignee, "Assignee")
 	return cmd
