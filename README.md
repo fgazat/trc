@@ -1,7 +1,7 @@
 # Yandex Tracker CLI
 
 
-## Instalation
+## Installation
 
 Using Go command:
 
