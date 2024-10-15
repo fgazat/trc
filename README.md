@@ -50,3 +50,6 @@ trc create -summary "Summary" -desc "Description" -queue "TEST"
 trc c -s "Summary" -d "Description"
 ```
 
+## Contribution
+
+Feel free to fork the repo and make PR
