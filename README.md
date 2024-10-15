@@ -38,7 +38,7 @@ issues:
 You can set your own config filepath with `TRC_CFG_PATH` env var:
 
 ```bash
-export TRC_CFG_PATH="~/.trc/mycustom.yaml"
+export TRC_CFG_PATH="/my/custom/path"
 ```
 
 ## Usage
