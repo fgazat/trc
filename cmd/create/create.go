@@ -1,6 +1,8 @@
 package create
 
 import (
+	"errors"
+	"fmt"
 	"log"
 	"os"
 
@@ -12,7 +14,7 @@ import (
 
 func Create(cfg *config.Config, creator client.Creator) *cobra.Command {
 	var queue, summary, description, assignee string
-	var followers []string
+	var followers, tags []string
 	cmd := &cobra.Command{
 		Use:              "create",
 		Short:            "Create issue",
@@ -26,12 +28,17 @@ func Create(cfg *config.Config, creator client.Creator) *cobra.Command {
 				Description: description,
 				Assignee:    assignee,
 				Followers:   followers,
+				Tags:        tags,
 			}
+			if err := valideta(&createArgs); err != nil {
+				log.Fatalf("Required fields empty: %v", err)
+			}
+
 			log.Println(cli.StringKeyVals("Issue params", &createArgs))
 			if !cfg.Force {
 				ok := cli.Confirm("Create Issue?")
 				if !ok {
-					log.Println("Ok then")
+					log.Println("ok then...")
 					os.Exit(0)
 				}
 			}
@@ -46,6 +53,18 @@ func Create(cfg *config.Config, creator client.Creator) *cobra.Command {
 	cmd.Flags().StringVarP(&summary, "summary", "s", "", "Summary")
 	cmd.Flags().StringVarP(&description, "desc", "d", "", "Description of issue")
 	cmd.Flags().StringVarP(&assignee, "assignee", "a", cfg.Issues.Assignee, "Assignee")
-	cmd.Flags().StringSliceVar(&followers, "followers", []string{}, `Slice of followers: -fol="v1,v2" --fol="v3". Followers will be set with value: [v1 v2 v3].`)
+	cmd.Flags().StringSliceVar(&followers, "followers", []string{}, `Slice of followers, specifiend in one value separated with "," or in several flags.`)
+	cmd.Flags().StringSliceVar(&tags, "tags", []string{}, `Slice of tags, specifiend in one value separated with "," or in several flags.`)
 	return cmd
+}
+
+func valideta(args *client.CreateArgs) error {
+	var errs error
+	if args.Queue == "" {
+		errs = errors.Join(errs, fmt.Errorf("Queue"))
+	}
+	if args.Summary == "" {
+		errs = errors.Join(errs, fmt.Errorf("Summary"))
+	}
+	return errs
 }
