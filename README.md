@@ -53,7 +53,7 @@ trc c -s "Summary" -d "Description"
 # list issues
 trc l
 # list issues of the first filter, select issue and open it in default browser.
-trc l -n 1 -p
+trc l -n 1 -o
 ```
 
 ## Contribution
