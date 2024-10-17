@@ -45,3 +45,12 @@ func (c *Client) CreateIssue(args *client.CreateArgs) (string, error) {
 	err := c.client.CreateIsueeAny(context.Background(), issue, &issue)
 	return issue.Key, err
 }
+
+func (c *Client) GetIssuesByQuery(query string) ([]entities.Issue, error) {
+	var issues []entities.Issue
+	err := c.client.GetIssuesByQuery(context.Background(), query, &issues)
+	if err != nil {
+		return nil, err
+	}
+	return issues, nil
+}

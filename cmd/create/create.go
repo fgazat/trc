@@ -7,8 +7,8 @@ import (
 	"os"
 
 	"github.com/fgazat/trc/config"
-	"github.com/fgazat/trc/internal/cli"
 	"github.com/fgazat/trc/internal/client"
+	"github.com/fgazat/trc/internal/terminal"
 	"github.com/spf13/cobra"
 )
 
@@ -20,7 +20,7 @@ func Create(cfg *config.Config, creator client.Creator) *cobra.Command {
 		Short:            "Create issue",
 		TraverseChildren: true,
 		Aliases:          []string{"c"},
-		Example:          `  trc c -q "TEST" -m "hello" -d "world"`,
+		Example:          `  trc c -q "TEST" -s "hello" -d "world"`,
 		Run: func(cmd *cobra.Command, args []string) {
 			createArgs := client.CreateArgs{
 				Queue:       queue,
@@ -30,13 +30,12 @@ func Create(cfg *config.Config, creator client.Creator) *cobra.Command {
 				Followers:   followers,
 				Tags:        tags,
 			}
-			if err := valideta(&createArgs); err != nil {
+			if err := validate(&createArgs); err != nil {
 				log.Fatalf("Required fields empty: %v", err)
 			}
-
-			log.Println(cli.StringKeyVals("Issue params", &createArgs))
+			log.Println(terminal.StringKeyVals("Issue params", &createArgs))
 			if !cfg.Force {
-				ok := cli.Confirm("Create Issue?")
+				ok := terminal.Confirm("Create Issue?")
 				if !ok {
 					log.Println("ok then...")
 					os.Exit(0)
@@ -58,7 +57,7 @@ func Create(cfg *config.Config, creator client.Creator) *cobra.Command {
 	return cmd
 }
 
-func valideta(args *client.CreateArgs) error {
+func validate(args *client.CreateArgs) error {
 	var errs error
 	if args.Queue == "" {
 		errs = errors.Join(errs, fmt.Errorf("Queue"))

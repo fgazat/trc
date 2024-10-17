@@ -3,7 +3,7 @@ module github.com/fgazat/trc
 go 1.22.5
 
 require (
-	github.com/fgazat/tracker v0.0.0-20241014122910-bc50030be9b6
+	github.com/fgazat/tracker v0.0.0-20241017161726-1e233540f450
 	github.com/heetch/confita v0.10.0
 	github.com/spf13/cobra v1.8.1
 )

@@ -15,7 +15,7 @@ import (
 
 func addSubcommands(cmd *cobra.Command, cfg *config.Config, client *tracker.Client) {
 	cmd.AddCommand(create.Create(cfg, client))
-	cmd.AddCommand(list.List(cfg))
+	cmd.AddCommand(list.List(cfg, client))
 	cmd.AddCommand(update.Update(cfg))
 }
 
@@ -44,6 +44,6 @@ func initLogger(debug bool) {
 		slog.SetLogLoggerLevel(slog.LevelDebug)
 	}
 	log.SetFlags(0)
-	log.SetPrefix("→ ")
+    log.SetPrefix("")
 	// tbd: better logging
 }

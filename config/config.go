@@ -28,6 +28,11 @@ type Config struct {
 	Debug       bool
 	Force       bool
 	Interactive bool
+	Terminal    TerminalConfig
+}
+type TerminalConfig struct {
+	SummaryMaxLength   int `yaml:"summary_max_length"`
+	ResultsTableHeight int `yaml:"table_height"`
 }
 
 type Filter struct {
@@ -41,9 +46,21 @@ func Init() (*Config, error) {
 		WebBaseURL: "https://tracker.yandex.com",
 		Filters: []Filter{
 			{
-				Name:  "My issues",
-				Query: "Assignee: me()",
+				Name:  "Assignee is me",
+				Query: `Assignee: me() "Sort by": Updated DESC`,
 			},
+			{
+				Name:  "In work",
+				Query: `Assignee: me() Type: !epic Status: inProgress "Sort by": Updated DESC`,
+			},
+			{
+				Name:  "Waiting for response",
+				Query: `"Pending reply from": me() Resolution: empty() "Status Type": !cancelled "Status Type": !done "Sort by": Updated DESC`,
+			},
+		},
+		Terminal: TerminalConfig{
+			SummaryMaxLength:   70,
+			ResultsTableHeight: 20,
 		},
 	}
 	backends := []backend.Backend{

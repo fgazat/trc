@@ -1,0 +1,19 @@
+api_base_url: https://api.tracker.yandex.net
+web_base_url: https://tracker.yandex.com
+debug: false
+issues:
+  default_queue: TEST
+  assignee: fgazat
+filters:
+  - name: Assignee is me
+    query: |
+      Assignee: me() "Sort by": Updated DESC
+  - name: In work
+    query: |
+      Assignee: me() Type: !epic Status: inProgress "Sort by": Updated DESC
+  - name: Waiting for response
+    query: |
+      "Pending reply from": me() Resolution: empty() "Status Type": !cancelled "Status Type": !done "Sort by": Updated DESC
+terminal:
+  summary_max_length: 70
+  table_height: 20
