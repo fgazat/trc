@@ -37,6 +37,8 @@ issues:
 
 You can set your own config filepath with `TRC_CFG_PATH` env var:
 
+Example of config: [./config/configexample.yaml](./config/configexample.yaml)
+
 ```bash
 export TRC_CFG_PATH="/my/custom/path"
 ```
@@ -48,6 +50,10 @@ export TRC_CFG_PATH="/my/custom/path"
 trc create --summary "Summary" --desc "Description" --queue "TEST"
 # create issue (short, if queue specifed in config) 
 trc c -s "Summary" -d "Description"
+# list issues
+trc l
+# list issues of the first filter, select issue and open it in default browser.
+trc l -n 1 -p
 ```
 
 ## Contribution
