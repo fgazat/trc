@@ -44,6 +44,6 @@ func initLogger(debug bool) {
 		slog.SetLogLoggerLevel(slog.LevelDebug)
 	}
 	log.SetFlags(0)
-    log.SetPrefix("")
+	log.SetPrefix("")
 	// tbd: better logging
 }
