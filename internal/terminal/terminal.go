@@ -93,6 +93,7 @@ func isWSL() bool {
 }
 
 func ShortenString(s string, maxLength int) string {
+    s = strings.ReplaceAll(s, "\n", " ")
 	if len(s) > maxLength {
 		return s[:maxLength] + "..."
 	}
